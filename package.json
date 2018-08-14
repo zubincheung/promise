@@ -1,0 +1,37 @@
+{
+  "name": "promise",
+  "version": "1.0.0",
+  "description": "Promise的简单实现",
+  "main": "index.js",
+  "repository": "https://github.com/zubincheung/promise.git",
+  "author": "Zubin",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint ./src/*",
+    "test": "jest",
+    "build": "npm run clear && babel src -d build",
+    "watch": "npm run clear && babel src -s -w -d build",
+    "clear": "rimraf build",
+    "ci": "npm run lint && npm run test -- --coverage",
+    "codecov": "codecov"
+  },
+  "pre-commit": [
+    "lint",
+    "test"
+  ],
+  "devDependencies": {
+    "@types/jest": "^23.1.4",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "codecov": "^3.0.2",
+    "eslint": "^5.3.0",
+    "eslint-config-airbnb": "^17.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jest": "^21.17.0",
+    "eslint-plugin-jsx-a11y": "^6.1.0",
+    "eslint-plugin-react": "^7.10.0",
+    "jest": "^23.3.0",
+    "pre-commit": "^1.2.2",
+    "rimraf": "^2.6.2"
+  }
+}
