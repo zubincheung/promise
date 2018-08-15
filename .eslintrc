@@ -11,6 +11,10 @@
     "class-methods-use-this": "off",
     "arrow-body-style": "off",
     "no-loop-func": "off",
-    "no-plusplus": "off"
+    "no-plusplus": "off",
+    "arrow-parens": "off",
+    "func-names": "off",
+    "space-before-function-paren": "off",
+    "default-case": "off"
   }
 }

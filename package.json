@@ -32,6 +32,7 @@
     "eslint-plugin-react": "^7.10.0",
     "jest": "^23.3.0",
     "pre-commit": "^1.2.2",
-    "rimraf": "^2.6.2"
+    "rimraf": "^2.6.2",
+    "ts-jest": "^23.1.3"
   }
 }
