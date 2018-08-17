@@ -99,4 +99,99 @@ function MyPromise(fn) {
   fn(resolve, reject);
 }
 
+/**
+ * resolve
+ * @param {*} value
+ */
+MyPromise.resolve = function(value) {
+  return new MyPromise(resolve => {
+    resolve(value);
+  });
+};
+
+/**
+ * reject
+ * @param {*} value
+ */
+MyPromise.reject = function(value) {
+  return new MyPromise((resolve, reject) => {
+    reject(value);
+  });
+};
+
+/**
+ * All
+ * @param {MyPromise[]} promises
+ */
+MyPromise.all = function(promises) {
+  if (!Array.isArray(promises)) {
+    return MyPromise.reject(new TypeError('promises is not Array'));
+  }
+
+  return new MyPromise((resolve, reject) => {
+    const results = [];
+    let count = promises.length;
+    let isChange = false; // 状态是否改变，避免重复执行
+
+    function resolver(index) {
+      return value => {
+        // 存储每一个promise的执行结果
+        results[index] = value;
+
+        // 所有的promise 都已经运行完成，执行resolve函数
+        if (--count === 0 && !isChange) {
+          resolve(results);
+        }
+      };
+    }
+
+    function rejecter(reason) {
+      // 若有一个失败，就执行reject函数
+      if (!isChange) {
+        isChange = true;
+        reject(reason);
+      }
+    }
+
+    // 依次循环执行每个promise
+    promises.forEach((promise, i) => {
+      promise.then(resolver(i), rejecter);
+    });
+  });
+};
+
+/**
+ * Race
+ * @param {MyPromise[]} promises
+ */
+MyPromise.race = function(promises) {
+  if (!Array.isArray(promises)) {
+    return MyPromise.reject(new TypeError('promises is not Array'));
+  }
+
+  return new MyPromise((resolve, reject) => {
+    let isChange = false; // 状态是否改变，避免重复执行
+
+    function resolver(value) {
+      // 若有一个成功，就执行resolve函数
+      if (!isChange) {
+        isChange = true;
+        resolve(value);
+      }
+    }
+
+    function rejecter(reason) {
+      // 若有一个失败，就执行reject函数
+      if (!isChange) {
+        isChange = true;
+        reject(reason);
+      }
+    }
+
+    promises.forEach(promise => {
+      promise.then(resolver, rejecter);
+    });
+  });
+};
+
 module.exports = MyPromise;
